@@ -1,0 +1,142 @@
+.nav-link:hover{
+    background-color: #fff;
+    color: #344767;
+    border-radius: 0.5rem;
+    box-shadow: 0 20px 27px 0 rgba(0,0,0,.05);
+    font-weight: 600;
+}
+.link_active{
+color:#cb0c9f
+}
+.dropdown-item:hover {
+    background-color:#cb0c9f !important ;
+    color:#fff !important;
+}
+.dropdown-item:hover .fa{
+    background-color:#cb0c9f !important ;
+    color:#fff !important;
+}
+.profile-tab{
+    display: none;
+}
+.fade.active{
+    display: block;
+}
+.profile{
+    position: absolute;
+}
+.otp-msg{
+    display: none;
+}
+.hide{
+    display:none;
+}
+.filter-btn{
+    list-style: none;
+    float: right;
+    display: flex;
+}
+.filter-btn li{
+    margin-right: 10px ;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #cb0c9f;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #cb0c9f;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  .error{
+    color:red;
+  }
+  .load-wallet-btn:hover{
+    color:white !important;
+    background-color:#cb0c9f !important ;
+  }
+  .load-wallet-btn{
+    width: 100% !important;
+    height: 10px !important;
+  }
+  .wallet-load-btn-txt{
+    position: relative;
+    bottom: 7px;
+  }
+  .dd-btn{
+    height: 15px;
+    margin-top: 15px;
+    padding-bottom: 20px;
+  }
+  .dd-menu{
+    position: absolute !important;
+    left: -35px !important;
+  }
+
+  @media only screen and (max-width: 600px) {
+  /* Responsive for mobile */
+  .fl-btn{
+    font-size: 0px;
+    width: 50px;
+    height: 10px;
+    padding-bottom:20px;
+    padding-left:20px ;
+  }
+  .fl-svg{
+    width: 13px;
+    height: 13px;
+  }
+  }
+    
