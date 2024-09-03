@@ -4,9 +4,7 @@
             Copyright
             © <script>
             document.write(new Date().getFullYear())
-            </script> by Instant Charge Backoffice.
-            <!-- <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Instant Charge Backoffice.
-            </a> -->
+            </script> by Trolim Pay.
         </div>
 </footer>
 <script src="{{asset('assets/js/plugins/dropzone.min.js')}}"></script>

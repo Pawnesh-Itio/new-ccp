@@ -33,7 +33,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('assets/img/apple-icon.png')}}">
     <link rel="icon" type="image/png" href="{{asset('assets/img/favicon.png')}}">
     <title>
-         Instant Charge Backoffice {{date('Y')}}
+      Trolim Pay {{date('Y')}}
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />

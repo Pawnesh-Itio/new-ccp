@@ -10,7 +10,7 @@
                       Copyright © <script>
                       document.write(new Date().getFullYear())
                       </script>
-                      <a style="color:#252f40;" href="#" class="font-weight-bold ml-1">Instant Charge Backoffice.</a>
+                      <a style="color:#252f40;" href="#" class="font-weight-bold ml-1">Trolim Pay.</a>
                   </p>
               </div>
               <div class="col-2">

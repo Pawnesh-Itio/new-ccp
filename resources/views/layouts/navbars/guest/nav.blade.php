@@ -5,7 +5,7 @@
         @if(!Session::has('on_password_step'))
         <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 {{ (Request::is('static-sign-up') ? 'text-white' : '') }}"
             href="{{ url('dashboard') }}">
-            Instant Charge Backoffice
+            Trolim Pay
         </a>
         @endif
         <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
@@ -39,7 +39,7 @@
                 @if(Session::has('on_password_step'))
                 <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 {{ (Request::is('static-sign-up') ? 'text-white' : '') }}"
                     href="{{ url('dashboard') }}">
-                    Instant Charge Backoffice
+                    Trolim Pay
                 </a>
                 @endif
                 @if(!Session::has('on_password_step'))
