@@ -13,7 +13,7 @@
             <div class="row gx-4"> 
                 <div class="col-auto"> 
                     <div class="avatar avatar-xl position-relative">
-                        <img src="{{asset('assets/img/logos/')}}/<?php if(!empty($company->logo)){ echo $company->logo; } else {echo "logo.jpg"; } ?> " alt="..."
+                        <img src="{{asset('assets/img/logos/')}}/<?php if(!empty($company->logo)){ echo $company->logo; } else {echo "logo.png"; } ?> " alt="..."
                             style="height:80px;width:100px" class=" border-radius-lg shadow-sm">
                         <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                             class="btn btn-sm btn-icon-only bg-gradient-light position-absolute bottom-0 end-0 mb-n2 me-n2">

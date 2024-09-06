@@ -57,7 +57,7 @@ if(!session('latesttransaction')){
        if(Permission::hasRole(['admin'])){
           $query->whereNotIn($table.'user_id',array(1))->whereIn($table.'product',array('payout','upi', 'openacquiring','Stripe','GTW'))->whereIn($table.'status',['success', 'complete', 'partial capture']);
         }else{
-          $query->where($table.'user_id', \Auth::id())->whereIn($table.'product',array('payout','upi', 'openacquiring','Stripe','GTW'))->whereIn($table.'status',['success', 'complete', 'partial capture']);
+          $query->where($table.'user_id', \Auth::id())->whereIn($table.'product',array('payout','upi', 'openacquiring','Stripe','GTW','EaseBuzz'))->whereIn($table.'status',['success', 'complete', 'partial capture']);
         }
      $query->orderBy($table.'id','desc')->take(10);
      $latesttxn = $query->get(['reports.txnid','reports.mytxnid','reports.id','reports.amount','reports.status','reports.product','reports.created_at','apiuser.name','apiuser.mobile']);

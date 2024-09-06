@@ -230,7 +230,7 @@ class SetupController extends Controller
             
             case 'acquirer':
                 $rules = array(
-                    'acquirer_name' => 'sometimes|required',
+                    'acquirer_name' => 'sometimes|required', 
                     'api_endpoint' => 'sometimes|required',
                     'acquirer_slug' => 'sometimes|required'
                 );
@@ -240,23 +240,14 @@ class SetupController extends Controller
                 }
                 // post Data
                 $fildArr=array();
-                if(!empty($post['test_public_key'])){
-                    $fildArr['test_public_key']= $post['test_public_key'];
+                if(!empty($post['merchant_key'])){
+                    $fildArr['merchant_key']= $post['merchant_key'];
                 }
-                if(!empty($post['test_secret_key'])){
-                    $fildArr['test_secret_key']= $post['test_secret_key'];
+                if(!empty($post['salt'])){
+                    $fildArr['salt']= $post['salt'];
                 }
-                if(!empty($post['live_public_key'])){
-                    $fildArr['live_public_key']= $post['live_public_key'];
-                }
-                if(!empty($post['live_secret_key'])){
-                    $fildArr['live_secret_key']= $post['live_secret_key'];
-                }
-                if(!empty($post['return_url'])){
-                    $fildArr['return_url']= $post['return_url'];
-                }
-                if(!empty($post['webhook_url'])){
-                    $fildArr['webhook_url']= $post['webhook_url'];
+                if(!empty($post['test_api_endpoint'])){
+                    $fildArr['test_api_endpoint']= $post['test_api_endpoint'];
                 }
                 if(!empty($post['success_url'])){
                     $fildArr['success_url']= $post['success_url'];
@@ -264,18 +255,7 @@ class SetupController extends Controller
                 if(!empty($post['failur_url'])){
                     $fildArr['failur_url']= $post['failur_url'];
                 }
-                if(!empty($post['public_key'])){
-                    $fildArr['public_key']= $post['public_key'];
-                }
-                if(!empty($post['terno'])){
-                    $fildArr['terno']= $post['terno'];
-                }
-                if(!empty($post['token'])){
-                    $fildArr['token']= $post['token'];
-                }
-                if(!empty($post['authorization'])){
-                    $fildArr['authorization']= $post['authorization'];
-                }
+                
                 $jsonFildArr = json_encode($fildArr);
                 if(!empty($post['acquirer_name'])){
                 $acquArr['acquirer_name'] = $post['acquirer_name'];

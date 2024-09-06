@@ -136,8 +136,7 @@ class MemberController extends Controller
             'address'    => 'required',
             'pincode'    => 'required',
             'companyname'=> 'required',
-            'website'    => 'required',
-            'currancy_id'=> 'required'
+            'website'    => 'required'
                 );
                 $validator = \Validator::make($post->all(), $rules);
                 if ($validator->fails()) {
@@ -195,6 +194,7 @@ class MemberController extends Controller
         $post['kyc'] = "verified";
         $post['passwordold'] = $post->mobile;
         $post['password'] = bcrypt($post->mobile);
+        $post['currancy_id']=5;
 
         // Company Logo
         if($post->hasFile('file')){

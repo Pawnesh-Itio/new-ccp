@@ -11,6 +11,7 @@ use App\Models\Acquirer;
 use App\Models\User;
 use App\Models\Currancy;
 use App\Models\Merchantacquirermapping;
+use App\Helpers\Permission ;
 
 class DirectApiController extends Controller
 {
@@ -18,31 +19,30 @@ class DirectApiController extends Controller
     public function direct_api(Request $post){
         // Validate Fields
         $rules = array(
-            'public_key'      => 'required',
-            'terNO'           => 'required',
-            'bill_amt'        => 'required',
-            'bill_currency'   => 'required',
-            'product_name'    => 'required',
-            'fullname'        => 'required',
-            'bill_email'      => 'required',
-            'bill_address'    => 'required',
-            'bill_city'       => 'required',
-            'bill_state'      => 'required',
-            'bill_country'    => 'required',
-            'bill_zip'        => 'required',
-            'bill_phone'      => 'required',
+            'public_key'       => 'required',
+            'success_url'      => 'required',
+            'failur_url'       => 'required',
+            'product_info'     => 'required',
+            'firstname'        => 'required',
+            'email'            => 'required',
+            'phone'            => 'required',
+            'amount'           => 'required',
+            'address_1'        => 'required',
+            'address_2'        => 'required',
+            'city'             => 'required',
+            'state'            => 'required',
+            'country'          => 'required',
+            'zip'              => 'required'
         );
         $validator = \Validator::make($post->all(), $rules);
         if ($validator->fails()) {
             return response()->json(['Errors'=>"Required Peremeters are missing"], 422);
         }
-        // GTW Integratio
         $postPublicKey = $post['public_key']; //Our panel Merchant public key 
         // Get User Data
         $userData = Merchantkey::where("public_key",$postPublicKey)
                                 ->where("is_active","yes")
                                 ->first();
-        $currency = strtolower($post['bill_currency']);
         if($userData){
             // Get userdata->scheme_id,kyc,currency_id
             $fetchUserDetail = User::where('id',$userData->user_id)->first(['id','currancy_id','scheme_id','kyc','status','s2s_agent']);
@@ -62,10 +62,6 @@ class DirectApiController extends Controller
             }
             if(empty($fetchUserDetail->s2s_agent)){
                 return response()->json(['Errors'=>"Acquirer is not set, Please contact technical support"], 422);
-                exit;
-            }
-            if($currency !=$fetchUserCurrency->shortname){
-                return response()->json(['Errors'=>"Currency (".$post['bill_currency'].") is not supported, Please contact technical support"], 422);
                 exit;
             }
 
@@ -227,11 +223,75 @@ class DirectApiController extends Controller
 
             break;
 
-            case 'epay':
-                // 
-                echo "epay";
-            break;
+            case 'easy_buzz':
+                $apiFields = json_decode($acquirerData['fields'],true);
+                $txnID = 'TRP-'.date('YmdHis').rand(11111111,99999999);
+                // Post DATA
+                $postData = [
+                    'key' => $apiFields['merchant_key'],
+                    'txnid' => $txnID,
+                    'amount' => $post['amount'],
+                    'productinfo' => $post['product_info'],
+                    'firstname' => $post['firstname'],
+                    'phone' => $post['phone'],
+                    'email' => $post['email'],
+                    'surl' => $apiFields['success_url'],
+                    'furl' => $apiFields['failur_url'],
+                    'address1' => $post['address_1'],
+                    'address2' => $post['address_2'],
+                    'city' => $post['city'],
+                    'state' => $post['state'],
+                    'country' => $post['country'],
+                    'zipcode' => $post['zip'],
+                    'show_payment_mode'=>'NB,CC,DC,MW,UPI,OM,EMI,PL,CBT,BT',
+                    'udf1'=>$postPublicKey,
+                    'udf2'=>$userData->user_id
+                    
+                ];
+                // End Post Data
+                // Generate Report
+                $reportArr['acquirer_id'] = $acquirer_id;
+                $reportArr['acquirer_slug'] = $slug;
+                $reportArr['user_id'] = $userData->user_id;
+                $reportArr['amount'] = $post['amount'];
+                $reportArr['mobile'] = $post['phone'];
+                $reportArr['provider_id'] =0;
+                $reportArr['api_id'] =1;
+                $reportArr['trans_type'] = 'credit';
+                $reportArr['mytxnid'] = $txnID;
+                $reportArr['txnid'] = $txnID;
+                $reportArr['product'] ="EaseBuzz";                                                                           
+                $reportArr['aepstype'] ='card';
+                $reportArr['status'] ='pending';
+                $reportArr['refno'] = $txnID;
+                $reportArr['number'] = $txnID;
+                $reportArr['billing_response'] = json_encode($postData);
 
+                $insertedReport = Report::create($reportArr);
+                $reportId = $insertedReport->id;
+                // End Generate Report
+                // Hash
+                $hashFields = $apiFields['merchant_key'] . '|' . $txnID . '|' . $post['amount'] . '|' . $post['product_info'] . '|' . $post['firstname'] . '|' . $post['email'] . '|'. $postPublicKey .'|'. $userData->user_id .'|' . $reportId . '||||||||' . $apiFields['salt'];
+                $hash = hash('sha512', $hashFields);
+                $postData['hash']=$hash;
+                $postData['udf3']=$reportId;
+                    // Initiation
+                    $response = Permission::eassBuzz($postData);
+                    $response_data = json_decode($response, true);
+                    $status = $response_data['status'];
+                    if($status==1){
+                    $access_key = $response_data['data'];
+                    // Parse the URL
+                    $parsedUrl = parse_url($apiFields['test_api_endpoint']);
+                    $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+                    $baseUrl = trim($baseUrl);
+                    $access_key = trim($access_key);
+                    $url = $baseUrl."/v2/pay/".$access_key;
+                    return response()->json(['redirect' => $url,], 200);
+                    }else{
+                    return response()->json(['Errors'=>"Somthing went wrong, please try again!"], 422);
+                    }
+            break;
         }
     }else{
         return response()->json(['Errors'=>"Public key is not registered with us"], 422);

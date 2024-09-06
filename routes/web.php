@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ResourceController;
@@ -41,16 +40,8 @@ use Illuminate\Support\Facades\Artisan;
     // Checkout-Page Integeration
     Route::any('checkout-form', [PaymentController::class, 'checkoutForm'])->name('checkout-form');
     Route::any('checkout', [PaymentController::class, 'checkout'])->name('checkout')->withoutMiddleware(['csrf']);
-	Route::any('Strippayinitiate',[PaymentController::class,'Strippayinitiate'])->name('Strippayinitiate');
-	Route::any('gtw_checkout', [PaymentController::class, 'gtw_checkout'])->name('gtw_checkout');
-	Route::any('gtw_checkout_form',[PaymentController::class,'gtw_checkout_form'])->name('gtw_checkout_form');
-	Route::any('gtw_fetch', [PaymentController::class, 'gtw_fetch'])->name('gtw_fetch');
-	Route::any('epayCheckout', [PaymentController::class, 'epayCheckout'])->name('epayCheckout');
-	Route::any('failur', [PaymentController::class, 'failur'])->name('failur');
-	Route::any('webhook_url', [PaymentController::class, 'webhook'])->name('webhook');
-	Route::any('return_url', [PaymentController::class, 'return_url'])->name('return_url');
-	Route::any('success', [PaymentController::class, 'success'])->name('success');
-	Route::any('failur', [PaymentController::class, 'failur'])->name('failur');
+	Route::any('success', [PaymentController::class, 'success'])->name('success')->withoutMiddleware(['csrf']);
+	Route::any('failur', [PaymentController::class, 'failur'])->name('failur')->withoutMiddleware(['csrf']);
 	
 
 	Route::any('/state/{country?}', [RegisterController::class, 'state'])->name('state');
@@ -162,14 +153,6 @@ Route::group(['prefix' => 'resources', 'middleware' => ['auth','user','company']
 	Route::post('get/{type}/commission', [ResourceController::class,'getCommission']);
 	Route::post('get/{type}/packagecommission', [ResourceController::class,'getPackageCommission']);
 });
-// Recharge Routes
-// Bill Pay Routes
-// Pancard Routes
-// dmt Routes
-// aeps Routes
-// upi Routes
-// Payout Routes
-// Developers API Routes
 Route::group(['prefix' => 'developer/api', 'middleware' => ['auth','user']], function (){
 	Route::get('{type}', [ApiController::class, 'index'])->name('apisetup');
 	Route::post('update',[ApiController::class, 'update'])->name('apitokenstore');

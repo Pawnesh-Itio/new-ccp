@@ -29,21 +29,7 @@
                                         placeholder="TerNo">
                                 </div>
                                 <div class="mb-3">
-                                    <select class="form-control" name="public_key">
-                                        <option value>Business Terminal Id</option>
-                                        @foreach($merchantData AS $md)
-                                        <option data-title="{{$md->terno}}" value="{{$md->public_key}}">
-                                            {{$md->public_key}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" name="checkout_url"
-                                        placeholder="Checkout URL" value="http://127.0.0.1:8000/checkout">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" name="return_url" placeholder="Return URL"
-                                        value="http://127.0.0.1:8000/return_url">
+                                    <input type="text" class="form-control" name="public_key" placeholder="Public Key">
                                 </div>
                                 <div class="mb-3">
                                     <input type="text" class="form-control" name="success_url" placeholder="Success URL"
@@ -54,73 +40,39 @@
                                         value="http://127.0.0.1:8000/failur">
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" name="webhook_url" placeholder="Webhook URL"
-                                        value="http://127.0.0.1:8000/webhook_url">
+                                    <input type="text" class="form-control" name="product_info"
+                                        placeholder="Product Info" value="Test Product" >
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" name="product_name"
-                                        placeholder="Product Name" value="Test Product">
+                                    <input type="text" class="form-control" name="firstname" placeholder="First Name"
+                                    value="Test">
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" name="fullname" placeholder="Full Name"
-                                        value="Test Full Name">
+                                    <input type="text" class="form-control" name="phone" placeholder="Phone Number" value="0123456789">
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" name="bill_email" placeholder="Bill Email"
-                                        value="test5849@test.com">
+                                    <input type="email" class="form-control" name="email" placeholder="E-mail" value="test@gmail.com">
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" name="bill_address"
-                                        placeholder="Bill Address" value="161 Kallang Way">
+                                    <input type="text" class="form-control" name="amount" placeholder="Amount (Decimal Number)" value="5.2">
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" name="bill_city" placeholder="Bill City"
-                                        value="New Delhi">
+                                    <input type="text" class="form-control" name="address_1" placeholder="Address 1" value="Address 1">
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" name="bill_state" placeholder="Bill State"
-                                        value="Delhi">
+                                    <input type="text" class="form-control" name="address_2" placeholder="Address 2" value="Address 2">
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" name="bill_country"
-                                        placeholder="Bill Country" value="US">
+                                    <input type="text" class="form-control" name="city" placeholder="City" value="test city">
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" name="bill_zip" placeholder="Zip Code"
-                                        value="110001">
+                                    <input type="text" class="form-control" name="state" placeholder="State" value="test state">
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" name="bill_phone" placeholder="Bill Phone"
-                                        value="9802155849">
+                                    <input type="text" class="form-control" name="country" placeholder="Country" value="test country">
                                 </div>
                                 <div class="mb-3">
-                                    <select name="bill_currency" class="form-control">
-                                        <option value="USD" selected="selected">USD</option>
-                                        <option value="AUD">AUD</option>
-                                        <option value="BTC">BTC</option>
-                                        <option value="CAD">CAD</option>
-                                        <option value="CNY">CNY</option>
-                                        <option value="CZK">CZK</option>
-                                        <option value="EUR">EUR</option>
-                                        <option value="GBP">GBP</option>
-                                        <option value="HKD">HKD</option>
-                                        <option value="IDR">IDR</option>
-                                        <option value="INR">INR</option>
-                                        <option value="JPY">JPY</option>
-                                        <option value="KHR">KHR</option>
-                                        <option value="MXN">MXN</option>
-                                        <option value="MYR">MYR</option>
-                                        <option value="PHP">PHP</option>
-                                        <option value="PLN">PLN</option>
-                                        <option value="SGD">SGD</option>
-                                        <option value="THB">THB</option>
-                                        <option value="USD">USD</option>
-                                        <option value="VND">VND</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" name="bill_amt" placeholder="Bill Amount"
-                                        value="2.00">
+                                    <input type="text" class="form-control" name="zip" placeholder="Zip Code" value="123456">
                                 </div>
                             </div>
                             <div class="card-footer">

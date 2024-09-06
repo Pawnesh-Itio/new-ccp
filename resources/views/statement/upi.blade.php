@@ -187,6 +187,14 @@ $(document).ready(function() {
                       </a>
                       `;
                 }
+                if (responseObject && Object.keys(responseObject).length !== 0) {
+                    data = `<a href="javascript:void(0)" onclick="transactionDetailEassBuzz
+                    ( '` + billObject.address1 + `','` + billObject.address2 + `','` + billObject.city + `','` + billObject.state + `','` + billObject.zipcode + `','` + billObject.country + `','` + responseObject.txnid + `','` + responseObject.firstname + `','` + responseObject.deduction_percentage + `', '` + responseObject.net_amount_debit + `','` +responseObject.addedon + `','` +responseObject.bank_ref_num+ `',
+                    '` +responseObject.error_Message + `','` +responseObject.phone + `','` +responseObject.easepayid + `','` +responseObject.cardnum + `','` +responseObject.payment_source + `',
+                    '` +responseObject.card_type + `','` +responseObject.mode + `','` +responseObject.name_on_card + `','` +responseObject.amount + `','` +responseObject.productinfo + `','` +responseObject.email + `','` +responseObject.status + `')"> Transaction Detail 
+                      </a>
+                      `;
+                }
                 return `<div>
                             <span class='text-xs font-weight-bold mb-0'style='color:black'><b>` + full.id + `</b> </span>
                             <div class="clearfix"></div>
@@ -494,6 +502,86 @@ function transactionDetailStripe(name,phone,cust_id,email,state,postal_code,coun
               `;
     $('#transactionDetailModel').find('.td_content').html(table)
     $('#transactionDetailModel').modal('show');
+}
+function transactionDetailEassBuzz(address1, address2,city,state,zipcode,country,txnid, firstname,deduction_percentage,net_amount_debit,addedon,bank_ref_num,error_Message,phone,easepayid,cardnum,payment_source,card_type,mode,name_on_card,amount,productinfo,email,status){
+    const address = address1+" "+address2+" "+city+" "+state+" "+country+"- "+zipcode
+
+if(status=='success'){
+        var color = "text-success";
+    }else{
+        var color ="text-danger";
+    }
+var table = `<table class="table table-borderless caption-top">
+            <caption style="color:black">Buyer's Detail</caption>
+            <tbody class="text-xs "style='color:black'>
+              <tr>
+                <td  class="text-xs col-sm-3">Buyer's Name : </td>
+                <td  class="text-xs col-sm-9">`+firstname+`</td>
+              </tr>
+              <tr>
+                <td  class="text-xs col-sm-3">Buyer's Phone :</td>
+                <td  class="text-xs col-sm-9">`+phone+`</td>
+              </tr>
+              <tr>
+                <td  class="text-xs col-sm-3">Buyer's Email : </td>
+                <td  class="text-xs col-sm-9">`+email+`</td>
+              </tr>
+              <tr>
+                <td  class="text-xs col-sm-3">Buyer's Address</td>
+                <td  class="text-xs col-sm-3">`+address+`</td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="table table-borderless caption-top">
+            <caption style="color:black">Transaction Details</caption>
+            <tbody class="text-xs "style='color:black'>
+              <tr>
+                <td  class="text-xs col-sm-3">Transaction status : </td>
+                <td  class="text-xs col-sm-9 `+color+`">`+status+`</td>
+              </tr>
+             <tr>
+                <td  class="text-xs col-sm-3">Transaction ID : </td>
+                <td  class="text-xs col-sm-9">`+txnid+`</td>
+              </tr>
+              <tr>
+                <td  class="text-xs col-sm-3">Trans Response :</td>
+                <td  class="text-xs col-sm-9 text-nowrap `+color+`">`+error_Message+`</td>
+              </tr>
+              <tr>
+                <td  class="text-xs col-sm-3">Product name :</td>
+                <td  class="text-xs col-sm-9">`+productinfo+`</td>
+              </tr>
+              <tr>
+                <td  class="text-xs col-sm-3">Amount :</td>
+                <td  class="text-xs col-sm-9 ">`+amount+`</td>
+              </tr>
+               <tr>
+                <td  class="text-xs col-sm-3">Bank Ref no :</td>
+                <td  class="text-xs col-sm-9 ">`+bank_ref_num+`</td>
+              </tr>
+               <tr>
+                <td  class="text-xs col-sm-3">Card Type :</td>
+                <td  class="text-xs col-sm-9">`+card_type+`</td>
+              </tr>
+              <tr>
+                <td  class="text-xs col-sm-3">mode :</td>
+                <td  class="text-xs col-sm-9">`+mode+`</td>
+              </tr>
+              `
+              if(mode=='DC' || mode=='CC'){
+               table+=`
+              <tr>
+                <td  class="text-xs col-sm-3">Card number :</td>
+                <td  class="text-xs col-sm-9">`+cardnum+`</td>
+              </tr>`;
+            }
+            
+            table+= `
+            </tbody>
+          </table>
+          `;
+$('#transactionDetailModel').find('.td_content').html(table)
+$('#transactionDetailModel').modal('show');
 }
 function transactionDetailGTW(bill_amt,descriptor,response,reference,bill_currency,fullname,bill_email,bill_address,bill_city,bill_state,bill_country,bill_zip,bill_phone,bill_ip,source,product,status) {
 

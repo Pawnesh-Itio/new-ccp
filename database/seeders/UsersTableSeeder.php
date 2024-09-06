@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
     {
         \App\Models\User::create([
             'name' => "Admin",
-            'email' => "admin@gmail.com",
+            'email' => "admin@gmail.com", 
             'mobile' => "1111111111",
             'password' => bcrypt('123456'),
             'mainwallet' => 0,
@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
             'lockedamount' => 0,
             'role_id' => 1,
             'parent_id' => 0,
-            'currancy_id' => 1,
+            'currancy_id' => 5,
             'company_id' => 1,
             'status' => "active",
             'address' => "Bankhedi",

@@ -838,6 +838,29 @@ class Permission {
             return "no";
         }
     }
+    public static function eassBuzz($data){
+        // Initialize a cURL session
+        $ch = curl_init();
+        // Set the URL for the POST request
+        curl_setopt($ch, CURLOPT_URL, "https://testpay.easebuzz.in/payment/initiateLink");
+        // Set the request method to POST
+        curl_setopt($ch, CURLOPT_POST, 1);
+        // Set headers
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Content-Type: application/x-www-form-urlencoded',
+        ]);
+        // Convert the postData array into a URL-encoded query string
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        // Receive server response
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Execute the cURL request
+        $response = curl_exec($ch);
+        // Close the cURL session
+        curl_close($ch);
+        // Output the response
+        return $response;
+    }
      public static function encrypt($plainText, $key) {
         $secretKey = Permission::hextobin(md5($key));
         $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
@@ -946,6 +969,10 @@ class Permission {
         $logo = Company::where('id', $companyId)->first();
         return $logo;
     }
+    public static function getLogo(){
+        $data = Company::where('id',1)->first();
+        return $data;
+    }
     public static function generatePublicKey(){
         // Generate a unique identifier (terno)
     $terno = mt_rand(1000, 9999); // Using 'true' to make it more unique
@@ -986,6 +1013,5 @@ class Permission {
                       if($currency){
                         return $currency;
                       }
-    }
-
+                    }
 }

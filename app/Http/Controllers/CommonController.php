@@ -1847,7 +1847,7 @@ class CommonController extends Controller
 
 			case 'upistatement':
 
-				$data->whereIn('product', ['openacquiring','Stripe','GTW']);
+				$data->whereIn('product', ['openacquiring','Stripe','GTW','EaseBuzz']);
 
 				break;
 

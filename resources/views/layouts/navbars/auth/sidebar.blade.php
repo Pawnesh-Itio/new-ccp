@@ -1,19 +1,18 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
     id="sidenav-main">
-    <?php $CompanyData = \App\Helpers\Permission::getCompanyDetails(\Auth::user()->company_id); ?>
+    <?php $CompanyData = \App\Helpers\Permission::getLogo(); ?>
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
         <a class="align-items-center navbar-brand " href="{{ route('dashboard') }}">
             @if(!empty($CompanyData ))
             @if(!empty($CompanyData->logo))
-            <img src="{{asset('assets/img/logos/')}}/{{$CompanyData->logo}}" class="navbar-brand-img" alt="Logo">
+            <img src="{{asset('assets/img/logos/')}}/{{$CompanyData->logo}}" class="navbar-brand-img" width="100px" height="100px" alt="Logo">
             @else
-            <img src="{{asset('assets/img/logos/logo.jpg')}}" class="navbar-brand-img" width="100px" height="100px"  alt="Logo" >
+            <img src="{{asset('assets/img/logos/logo.png')}}" class="navbar-brand-img" width="100px" height="100px"  alt="Logo" >
             @endif
             @else
-            <img src="{{asset('assets/img/logos/logo.jpg')}}" class="navbar-brand-img h-200"
-                alt="...">
+            <img src="{{asset('assets/img/logos/logo.png')}}" class="navbar-brand-img h-200" width="100px" height="100px"alt="Logo">
             @endif
             <!-- <span class="ms-3 font-weight-bold">Xyeso</span> -->
         </a>
@@ -459,6 +458,7 @@
             <div class="full-background"
                 style="background-image: url('{{asset('assets/img/curved-images/white-curved.jpeg')}}')">
             </div>
+            @if (App\Helpers\Permission::hasRole('admin'))
             <div class="card-body text-start p-3 w-100">
                 <div
                     class="icon icon-shape icon-sm bg-white shadow text-center mb-3 d-flex align-items-center justify-content-center border-radius-md">
@@ -468,10 +468,11 @@
                 <div class="docs-info">
                     <h6 class="text-white up mb-0">Need help?</h6>
                     <p class="text-xs font-weight-bold">Please check our docs</p>
-                    <a href="https://documenter.getpostman.com/view/32295715/2sA3Qs9Bv7" target="_blank"
+                    <a href="https://documenter.getpostman.com/view/32295715/2sAXjQ1VCM" target="_blank"
                         class="btn btn-white btn-sm w-100 mb-0">Documentation</a>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </aside>

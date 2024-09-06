@@ -538,7 +538,6 @@ class SettingController extends Controller
             'aadharcard'     => 'required|unique:users,aadharcard,'.$request->id,
             'pancard'        => 'required|unique:users,pancard,'.$request->id,
             'kyc'            => 'sometimes|required',
-            'currancy_id'            => 'sometimes|required',
             'id'             => 'required'
         );
         $validate = Permission::FormValidator($rules, $request);
@@ -564,9 +563,7 @@ class SettingController extends Controller
         if(isset($request['kyc'])){
         $data['kyc']       = $request['kyc'];
         }
-        if(isset($request['currancy_id'])){
-            $data['currancy_id']       = $request['currancy_id'];
-        }
+        $data['currancy_id']=5;
         $userdata = User::find($request['id']);
         $userAddharPicArr = json_decode($userdata->aadharcardpic);
         if($request->hasFile('aadharcardpics')){

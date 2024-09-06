@@ -124,36 +124,22 @@ $agentfilter = "hide";
                         <label>Key Setup</label>
                         <hr>
                         <div class="form-group mb-2 col-md-6">
-                            <label>Test Public Key</label>
-                            <input type="text" name="test_public_key" class="form-control"
-                                placeholder="Test Public Key">
+                            <label>Merchant Key</label>
+                            <input type="text" name="merchant_key" class="form-control"
+                                placeholder="Merchant Key">
                         </div>
                         <div class="form-group mb-2 col-md-6">
-                            <label>Test Secret Key</label>
-                            <input type="text" name="test_secret_key" class="form-control"
-                                placeholder="Test Secret Key">
-                        </div>
-                        <div class="form-group mb-2 col-md-6">
-                            <label>Live Public Key</label>
-                            <input type="text" name="live_public_key" class="form-control"
-                                placeholder="Live Public Key">
-                        </div>
-                        <div class="form-group mb-2 col-md-6">
-                            <label>Live Secret Key</label>
-                            <input type="text" name="live_secret_key" class="form-control"
-                                placeholder="Live Secret Key">
+                            <label>Salt</label>
+                            <input type="text" name="salt" class="form-control"
+                                placeholder="Salt">
                         </div>
                     </div>
                     <div class="row">
                         <label>URL Setup</label>
                         <hr>
                         <div class="form-group mb-2 col-md-6">
-                            <label>Return URL</label>
-                            <input type="text" name="return_url" class="form-control" placeholder="Return url">
-                        </div>
-                        <div class="form-group mb-2 col-md-6">
-                            <label>Webhook URL</label>
-                            <input type="text" name="webhook_url" class="form-control" placeholder="Return url">
+                            <label>Test API Endpoint</label>
+                            <input type="text" name="test_api_endpoint" class="form-control" placeholder="Test API End Point">
                         </div>
                         <div class="form-group mb-2 col-md-6">
                             <label>Success URL</label>
@@ -164,26 +150,7 @@ $agentfilter = "hide";
                             <input type="text" name="failur_url" class="form-control" placeholder="Failure url">
                         </div>
                     </div>
-                    <div class="row">
-                        <label>Other</label>
-                        <hr>
-                        <div class="form-group mb-2 col-md-6">
-                            <label>Public Key</label>
-                            <input type="text" name="public_key" class="form-control" placeholder="Public Key">
-                        </div>
-                        <div class="form-group mb-2 col-md-6">
-                            <label>Ter No</label>
-                            <input type="text" name="terno" class="form-control" placeholder="Ter No">
-                        </div>
-                        <div class="form-group mb-2 col-md-6">
-                            <label>Token</label>
-                            <input type="text" name="token" class="form-control" placeholder="Token">
-                        </div>
-                        <div class="form-group mb-2 col-md-6">
-                            <label>Authorization</label>
-                            <input type="text" name="authorization" class="form-control" placeholder="Authorization">
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal"
@@ -430,41 +397,20 @@ function editSetup(acquirer_id, acquirer_name,acquirer_slug, api_endpoint) {
             $('#setupModal').find('input[name="acquirer_name"]').val(acquirer_name);
             $('#setupModal').find('input[name="api_endpoint"]').val(api_endpoint);
             $('#setupModal').find('input[name="acquirer_slug"]').val(acquirer_slug);
-            if ('test_public_key' in responseObject) {
-                $('#setupModal').find('input[name="test_public_key"]').val(responseObject.test_public_key);
+            if ('merchant_key' in responseObject) {
+                $('#setupModal').find('input[name="merchant_key"]').val(responseObject.merchant_key);
             }
-            if ('test_secret_key' in responseObject) {
-                $('#setupModal').find('input[name="test_secret_key"]').val(responseObject.test_secret_key);
+            if ('salt' in responseObject) {
+                $('#setupModal').find('input[name="salt"]').val(responseObject.salt);
             }
-            if ('live_public_key' in responseObject) {
-                $('#setupModal').find('input[name="live_public_key"]').val(responseObject.live_public_key);
-            }
-            if ('live_secret_key' in responseObject) {
-                $('#setupModal').find('input[name="live_secret_key"]').val(responseObject.live_secret_key);
-            }
-            if ('return_url' in responseObject) {
-                $('#setupModal').find('input[name="return_url"]').val(responseObject.return_url);
-            }
-            if ('webhook_url' in responseObject) {
-                $('#setupModal').find('input[name="webhook_url"]').val(responseObject.webhook_url);
+            if ('test_api_endpoint' in responseObject) {
+                $('#setupModal').find('input[name="test_api_endpoint"]').val(responseObject.test_api_endpoint);
             }
             if ('success_url' in responseObject) {
                 $('#setupModal').find('input[name="success_url"]').val(responseObject.success_url);
             }
             if ('failur_url' in responseObject) {
                 $('#setupModal').find('input[name="failur_url"]').val(responseObject.failur_url);
-            }
-            if ('public_key' in responseObject) {
-                $('#setupModal').find('input[name="public_key"]').val(responseObject.public_key);
-            }
-            if ('terno' in responseObject) {
-                $('#setupModal').find('input[name="terno"]').val(responseObject.terno);
-            }
-            if ('token' in responseObject) {
-                $('#setupModal').find('input[name="token"]').val(responseObject.token);
-            }
-            if ('authorization' in responseObject) {
-                $('#setupModal').find('input[name="authorization"]').val(responseObject.authorization);
             }
             $('#setupModal').modal('show');
             $('.edit').css("display", "block");

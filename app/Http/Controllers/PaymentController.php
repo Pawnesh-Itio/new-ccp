@@ -6,7 +6,9 @@ use App\Models\Merchantkey;
 use App\Models\Report;
 use App\Models\Acquirer;
 use App\Models\Merchantacquirermapping;
+use App\Helpers\Permission ;
 use Redirect;   
+
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -21,42 +23,39 @@ class PaymentController extends Controller
  }
  public function checkout(REQUEST $post){
     $rules = array(
-        'public_key'      => 'required',
-        'bill_amt'        => 'required',
-        'bill_currency'   => 'required',
-        'product_name'    => 'required',
-        'fullname'        => 'required',
-        'bill_email'      => 'required',
-        'bill_address'    => 'required',
-        'bill_city'       => 'required',
-        'bill_country'    => 'required',
-        'bill_zip'        => 'required',
-        'bill_phone'      => 'required',
+        'public_key'       => 'required',
+        'success_url'      => 'required',
+        'failur_url'       => 'required',
+        'product_info'     => 'required',
+        'firstname'        => 'required',
+        'email'            => 'email',
+        'phone'            => 'required',
+        'amount'           => 'required',
+        'address_1'        => 'required',
+        'address_2'        => 'required',
+        'city'             => 'required',
+        'state'            => 'required',
+        'country'          => 'required',
+        'zip'              => 'required'
     );
     $validator = \Validator::make($post->all(), $rules);
     if ($validator->fails()) {
         return response()->json(['Errors'=>"Required Peremeters are missing"], 422);
     }
-    $data['bill_amt'] = $post['bill_amt'];
-    $data['bill_currency'] = $post['bill_currency'];
-    $data['public_key'] = $post['public_key'];
-    $data['terNO'] = $post['terNO'];
-    $data['checkout_url'] = $post['checkout_url'];
-    $data['return_url'] = $post['return_url'];
-    $data['success_url'] = $post['success_url'];
-    $data['failur_url'] = $post['failur_url'];
-    $data['webhook_url'] = $post['webhook_url'];
-    $data['product_name'] = $post['product_name'];
-    $data['fullname'] = $post['fullname'];
-    $data['bill_email'] = $post['bill_email'];
-    $data['bill_address'] = $post['bill_address'];
-    $data['bill_city'] = $post['bill_city'];
-    $data['bill_state'] = $post['bill_state'];
-    $data['bill_country'] = $post['bill_country'];
-    $data['bill_zip'] = $post['bill_zip'];
-    $data['bill_phone'] = $post['bill_phone'];
+    $public_key = $post['public_key'];
+    $product_info = $post['product_info'];
+    $firstname = $post['firstname'];
+    $phone = $post['phone'];
+    $email = $post['email'];
+    $amount = $post['amount'];
+    $address_1 = $post['address_1'];
+    $address_2 = $post['address_2'];
+    $city = $post['city'];
+    $state = $post['state'];
+    $country = $post['country'];
+    $zip = $post['zip'];
     // Fetch Record using pubic_key and terNo 
-    $action = Merchantkey::where('public_key',$data['public_key'])
+    $action = Merchantkey::where('public_key',$public_key)
                          ->where('is_active','yes')
                          ->first();
    if($action){
@@ -66,8 +65,90 @@ class PaymentController extends Controller
     ->where('merchant_acquirer_mapping.merchant_id','=',$merchant_id)
     ->select('acquirers.*')
     ->get();
-    $data['acquirer_data'] = $acquirer;
-    return view('checkout.checkout')->with($data);
+    if(sizeof($acquirer)!=0){
+        $acquirer = $acquirer[0];
+        $acquirer_id = $acquirer->acquirer_id;
+        $fieldsJson = $acquirer->fields;
+        $fieldsArray = json_decode($fieldsJson, true);
+        $acquirerName = $acquirer->acquirer_name;
+        $acquirerEndpoint = $acquirer->api_endpoint;
+        $acquirerSlug = $acquirer->acquirer_slug;
+        if($acquirerSlug == 'easy_buzz'){
+        $merchant_key = $fieldsArray['merchant_key'];
+        $salt = $fieldsArray['salt'];
+        $test_api_endpoint = $fieldsArray['test_api_endpoint'];
+        $success_url = $fieldsArray['success_url'];
+        $failur_url = $fieldsArray['failur_url'];
+        // TXN ID GENERATE
+        $txnID = 'TRP-'.date('YmdHis').rand(11111111,99999999);
+        // Post DATA ARRAY
+        $postData = [
+            'key' => $merchant_key,
+            'txnid' => $txnID,
+            'amount' => $amount,
+            'productinfo' => $product_info,
+            'firstname' => $firstname,
+            'phone' => $phone,
+            'email' => $email,
+            'surl' => $success_url,
+            'furl' => $failur_url,
+            'address1' => $address_1,
+            'address2' => $address_2,
+            'city' => $city,
+            'state' => $state,
+            'country' => $country,
+            'zipcode' => $zip,
+            'show_payment_mode'=>'NB,CC,DC,MW,UPI,OM,EMI,PL,CBT,BT',
+            'udf1'=>$public_key,
+            'udf2'=>$merchant_id
+        ];
+        // Generate Report
+        $reportArr['acquirer_id'] = $acquirer_id;
+        $reportArr['acquirer_slug'] = $acquirerSlug;
+        $reportArr['user_id'] = $merchant_id;
+        $reportArr['amount'] = $amount;
+        $reportArr['mobile'] = $phone;
+        $reportArr['provider_id'] =0;
+        $reportArr['api_id'] =1;
+        $reportArr['trans_type'] = 'credit';
+        $reportArr['mytxnid'] = $txnID;
+        $reportArr['txnid'] = $txnID;
+        $reportArr['product'] ="EaseBuzz";                                                                           
+        $reportArr['aepstype'] ='card';
+        $reportArr['status'] ='pending';
+        $reportArr['refno'] = $txnID;
+        $reportArr['number'] = $txnID;
+        $reportArr['billing_response'] = json_encode($postData);
+        $insertedReport = Report::create($reportArr);
+        $reportId = $insertedReport->id;
+        // End Generate Report
+        // Hash
+        $hashFields = $merchant_key . '|' . $txnID . '|' . $amount . '|' . $product_info . '|' . $firstname . '|' . $email . '|'. $public_key .'|'. $merchant_id .'|' . $reportId . '||||||||' . $salt;
+        $hash = hash('sha512', $hashFields);
+        $postData['hash']=$hash;
+        $postData['udf3']=$reportId;
+            // Initiation
+            $response = Permission::eassBuzz($postData);
+            $response_data = json_decode($response, true);
+            $status = $response_data['status'];
+            if($status==1){
+            $access_key = $response_data['data'];
+            // Parse the URL
+            $parsedUrl = parse_url($test_api_endpoint);
+            $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+            $baseUrl = trim($baseUrl);
+            $access_key = trim($access_key);
+            $url = $baseUrl."/v2/pay/".$access_key;
+            header("Location: $url");
+            exit();
+            }else{
+                return response()->json(['Errors'=>"Somthing went wrong, please try again later!"], 422);
+            }
+        }
+    }else{
+        return response()->json(['Errors'=>"Acquirer not found"], 422);
+    }
+
    }else{
     return response()->json(['Errors'=>"Public key is not registered with us"], 422);
    }
@@ -574,12 +655,40 @@ public function gtw_fetch(Request $post){
 	echo $responseData ;
 } 
  public function success(){
-    Log::debug('Response received success:');
-    return view('checkout.success');
+    $response_data = $_REQUEST;
+    if($response_data){
+        $merchant_id = $response_data['udf2'];
+        $report_id = $response_data['udf3'];
+        $jsonResponse =  json_encode($response_data);
+        if($response_data['status']=='success'){
+            $finalUpdate['status'] ='success';
+            $finalUpdate['response']=$jsonResponse;
+        }
+    $report = Report::find($report_id);
+    $report->makeHidden(['fundbank', 'apicode', 'apiname', 'username', 'sendername', 'providername']);
+    if($report){
+        $report->update($finalUpdate);
+        echo $jsonResponse;
+    }
+}
 }
 public function failur(){
-    Log::debug('Response received failur:');
-    return view('checkout.failur');
+    $response_data = $_REQUEST;
+    if($response_data){
+        $merchant_id = $response_data['udf2'];
+        $report_id = $response_data['udf3'];
+        $jsonResponse =  json_encode($response_data);
+        if($response_data['status']=='failure'){
+            $finalUpdate['status'] ='failed';
+            $finalUpdate['response']=$jsonResponse;
+        }
+    $report = Report::find($report_id);
+    $report->makeHidden(['fundbank', 'apicode', 'apiname', 'username', 'sendername', 'providername']);
+    if($report){
+        $report->update($finalUpdate);
+        echo $jsonResponse;
+    }
+}
 }
 public function webhook(){
     Log::debug('Response received webhook:');

@@ -159,17 +159,6 @@
                                     </div>
                                 </div>
                                 @endif
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Currency</label>
-                                        <select name="currancy_id" id="currancy_id" class="form-control" required>
-                                            <option value="">Select any one currency</option>
-                                            @foreach($currencies as $currancy)
-                                            <option value="{{$currancy->id}}">{{$currancy->fullname}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                             @if($role->slug == "whitelable")
                             <div class="row">

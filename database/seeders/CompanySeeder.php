@@ -14,7 +14,8 @@ class CompanySeeder extends Seeder
         \App\Models\Company::create([
             "companyname" => "Instant Charge Backoffice",
             'website' => $_SERVER['HTTP_HOST'],
-            'status' => '1'
+            'status' => '1',
+            'logo'=> 'logo.png'
         ]);
     }
 }

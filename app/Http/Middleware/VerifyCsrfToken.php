@@ -12,6 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'checkout','Strippayinitiate','return_url','gtw_checkout','gtw_checkout_form','gtw_fetch','epayCheckout','Directapi'
+        'checkout','Strippayinitiate','return_url','gtw_checkout','gtw_checkout_form','gtw_fetch','epayCheckout','Directapi','success','failur'
     ];
 }
