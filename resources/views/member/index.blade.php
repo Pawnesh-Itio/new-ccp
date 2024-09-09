@@ -783,9 +783,11 @@ $(document).ready(function() {
                     `" target="_blank"><span class="sub-action-icon"><i class="fa-solid fa-eye"></i></span> View Profile</a>`;
                 @endif
                 @if(App\Helpers\permission::can(['company_manager']))
+                if(full.kyc !='pending' && full.kyc !='block' ){
                 menu += `<a class="dropdown-item" href="{{url('resources/companyprofile')}}/` + full
                     .company_id +
                     `" target="_blank"><span class="sub-action-icon"><i class="fa-solid fa-eye"></i></span> View Company Profile</a>`;
+                }
                 @endif
                 @if(App\Helpers\Permission::hasNotRole('apiuser'))
                 menu += `<a class="dropdown-item" href="javascript:void(0)" onclick="scheme(` + full
@@ -804,8 +806,10 @@ $(document).ready(function() {
                 menu += `<a class="dropdown-item" href="javascript:void(0)" onclick="setgstcharge(` +
                     full.id + `,'` + full.gstrate +
                     `')"><span class="sub-action-icon"><i class="fa-solid fa-people-roof"></i></span> GST Charge</a>`;
+                    if(full.kyc !='pending' && full.kyc !='block' ){
                 menu += `<a class="dropdown-item" href="{{url('statement/account/')}}/` + full.id +
                     `" target="_blank"><span class="sub-action-icon"><i class="fa-solid fa-receipt"></i></span> Account Statement</a>`;
+                    }
                 out += `<div class="btn-group dropup" role="group">
                     <button id="btnGroupDrop1" type="button" class="btn bg-gradient-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Action

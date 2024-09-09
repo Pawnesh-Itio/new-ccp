@@ -91,7 +91,7 @@ class CommonController extends Controller
 			case 'kycsubmitted':
 			case 'kycrejected':
 				$request['table']= '\App\Models\User';
-				$request['searchdata'] = ['id','name', 'mobile','email'];
+				$request['searchdata'] = ['users.id','users.name', 'users.mobile','users.email'];
 				$request['select'] = ['users.*','currancy.symbol'];
 				$request['order'] = ['id','desc'];
 				$request['join'] = ['currancy','currancy.id','=','users.currancy_id'];
@@ -956,7 +956,7 @@ class CommonController extends Controller
 
 				$request['table']= '\App\Models\Report';
 
-				$request['searchdata'] = ['aadhar', 'mobile','refno', 'txnid', 'payid', 'mytxnid', 'terminalid','id','aepstype','authcode','provider_id'];
+				$request['searchdata'] = ['aadhar','amount','mobile','refno', 'txnid', 'payid', 'mytxnid', 'terminalid','id','aepstype','authcode','provider_id'];
 
 				$request['select'] = 'all';
 

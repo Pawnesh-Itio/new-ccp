@@ -55,7 +55,7 @@ if(!session('latesttransaction')){
      $query = \DB::table('reports');
      $query->Join('users as apiuser', 'apiuser.id', '=', 'reports.user_id');
        if(Permission::hasRole(['admin'])){
-          $query->whereNotIn($table.'user_id',array(1))->whereIn($table.'product',array('payout','upi', 'openacquiring','Stripe','GTW'))->whereIn($table.'status',['success', 'complete', 'partial capture']);
+          $query->whereNotIn($table.'user_id',array(1))->whereIn($table.'product',array('payout','upi', 'openacquiring','Stripe','GTW','EaseBuzz'))->whereIn($table.'status',['success', 'complete', 'partial capture']);
         }else{
           $query->where($table.'user_id', \Auth::id())->whereIn($table.'product',array('payout','upi', 'openacquiring','Stripe','GTW','EaseBuzz'))->whereIn($table.'status',['success', 'complete', 'partial capture']);
         }
