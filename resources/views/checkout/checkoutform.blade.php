@@ -20,7 +20,7 @@
                             <!-- Form Title -->
                             Order Detail Form
                         </div>
-                        <form id="formId" target="_blank" method="post"action="http://127.0.0.1:8000/checkout">
+                        <form id="formId" target="_blank" method="post"action="https://connect.trolimpay.com/checkout">
 
                             <div class="card-body">
                                 <!-- Form Body -->
@@ -33,11 +33,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <input type="text" class="form-control" name="success_url" placeholder="Success URL"
-                                        value="http://127.0.0.1:8000/success">
+                                        value="https://connect.trolimpay.com/success">
                                 </div>
                                 <div class="mb-3">
                                     <input type="text" class="form-control" name="failur_url" placeholder="Failur URL"
-                                        value="http://127.0.0.1:8000/failur">
+                                        value="https://connect.trolimpay.com/failure">
                                 </div>
                                 <div class="mb-3">
                                     <input type="text" class="form-control" name="product_info"
