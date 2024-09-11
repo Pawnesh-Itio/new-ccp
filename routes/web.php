@@ -41,7 +41,7 @@ use Illuminate\Support\Facades\Artisan;
     Route::any('checkout-form', [PaymentController::class, 'checkoutForm'])->name('checkout-form');
     Route::any('checkout', [PaymentController::class, 'checkout'])->name('checkout')->withoutMiddleware(['csrf']);
 	Route::any('success', [PaymentController::class, 'success'])->name('success')->withoutMiddleware(['csrf']);
-	Route::any('failur', [PaymentController::class, 'failur'])->name('failur')->withoutMiddleware(['csrf']);
+	Route::any('failure', [PaymentController::class, 'failure'])->name('failure')->withoutMiddleware(['csrf']);
 	
 
 	Route::any('/state/{country?}', [RegisterController::class, 'state'])->name('state');

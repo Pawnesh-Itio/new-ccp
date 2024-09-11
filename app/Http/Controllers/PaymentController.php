@@ -668,11 +668,11 @@ public function gtw_fetch(Request $post){
     $report->makeHidden(['fundbank', 'apicode', 'apiname', 'username', 'sendername', 'providername']);
     if($report){
         $report->update($finalUpdate);
-        echo $jsonResponse;
+        return view('checkout.success');
     }
 }
 }
-public function failur(){
+public function failure(){
     $response_data = $_REQUEST;
     if($response_data){
         $merchant_id = $response_data['udf2'];
@@ -686,7 +686,7 @@ public function failur(){
     $report->makeHidden(['fundbank', 'apicode', 'apiname', 'username', 'sendername', 'providername']);
     if($report){
         $report->update($finalUpdate);
-        echo $jsonResponse;
+        return view('checkout.failure');
     }
 }
 }

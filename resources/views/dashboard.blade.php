@@ -452,7 +452,7 @@
                                     <div class="col-md-12">
                                         <h3>E-Wallet Setup</h3>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <!-- <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Default Currancy</label>
                                                     <select name="currancy_id" id="currancy_id" class="form-control">
@@ -465,8 +465,8 @@
                                                     <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                                     @enderror
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
+                                            </div> -->
+                                            <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>GSTIN</label>
                                                     <input type="text" name="gstin" value="{{$user->gstin}}"
