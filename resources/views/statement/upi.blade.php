@@ -396,14 +396,13 @@ function viewUtiid(id) {
 
 function transactionStatus(err_message, status){
     if(status =='success'){
-        flasher.success((err_message));
+        flasher.success({message: err_message,title: 'Success !'});
     }
     if(status =='pending'){
-        flasher.warning((err_message));
+        flasher.warning({message: err_message,title: 'Pending !'});
     }
     if(status =='failed'){
-        
-        flasher.error((err_message));
+        flasher.error({message: err_message,title: 'Failed !'});
     }
 }
 
