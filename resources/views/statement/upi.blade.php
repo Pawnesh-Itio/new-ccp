@@ -281,7 +281,7 @@ $(document).ready(function() {
                 var menu = ``;
                 @if(App\Helpers\Permission::can('aeps_status'))
                 menu +=
-                    `<a class="dropdown-item" href="javascript:void(0)" onclick="transactionStatus('` + err_message + `')"><span class="sub-action-icon"><i class="fa-solid fa-people-roof"></i></span>Check Status</a>`;
+                    `<a class="dropdown-item" href="javascript:void(0)" onclick="transactionStatus('` + err_message + `','` + full.status + `')"><span class="sub-action-icon"><i class="fa-solid fa-people-roof"></i></span>Check Status</a>`;
                 @endif
 
                 @if(App\Helpers\Permission::can('capture'))
@@ -394,8 +394,17 @@ function viewUtiid(id) {
         });
 }
 
-function transactionStatus(err_message){
-    flasher.success((err_message));
+function transactionStatus(err_message, status){
+    if(status =='success'){
+        flasher.success((err_message));
+    }
+    if(status =='pending'){
+        flasher.warning((err_message));
+    }
+    if(status =='failed'){
+        
+        flasher.error((err_message));
+    }
 }
 
 function open_qcquiring_status(user_id, reference_id) {
