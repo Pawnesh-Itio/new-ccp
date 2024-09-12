@@ -259,6 +259,12 @@ $(document).ready(function() {
         {
             "data": "status",
             render: function(data, type, full, meta) {
+                var responseObject = JSON.parse(full.response);
+                if(responseObject && Object.keys(responseObject).length !== 0){
+                    var err_message =responseObject.error_Message;
+                }else{
+                    var err_message = "Transaction is pending";
+                }
                 if (full.status == "success") {
                     var out = `<span class="badge bg-success">` + full.status + `</span>`;
                 } else if (full.status == "complete") {
@@ -275,9 +281,7 @@ $(document).ready(function() {
                 var menu = ``;
                 @if(App\Helpers\Permission::can('aeps_status'))
                 menu +=
-                    `<a class="dropdown-item" href="javascript:void(0)" onclick="open_qcquiring_status('` +
-                    full.user_id + `', '` + full.refno +
-                    `')"><span class="sub-action-icon"><i class="fa-solid fa-people-roof"></i></span>Check Status</a>`;
+                    `<a class="dropdown-item" href="javascript:void(0)" onclick="transactionStatus('` + err_message + `')"><span class="sub-action-icon"><i class="fa-solid fa-people-roof"></i></span>Check Status</a>`;
                 @endif
 
                 @if(App\Helpers\Permission::can('capture'))
@@ -388,6 +392,10 @@ function viewUtiid(id) {
         .fail(function(errors) {
             notify('Oops', errors.status + '! ' + errors.statusText, 'warning');
         });
+}
+
+function transactionStatus(err_message){
+    flasher.success((err_message));
 }
 
 function open_qcquiring_status(user_id, reference_id) {
