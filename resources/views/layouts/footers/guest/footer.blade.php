@@ -14,7 +14,7 @@
                   </p>
               </div>
               <div class="col-2">
-                  <div class="tel" style="position:fixed;right:20px;top:650px; z-index:2;">
+                  <!-- <div class="tel" style="position:fixed;right:20px;top:650px; z-index:2;">
                       <a href="https://t.me/yourusername" target="_blank" rel="noopener noreferrer">
                           <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"
                               viewBox="0 0 48 48">
@@ -30,7 +30,7 @@
                               </path>
                           </svg>
                       </a>
-                  </div>
+                  </div> -->
               </div>
           </div>
           @endif
