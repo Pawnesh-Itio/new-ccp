@@ -32,6 +32,9 @@
                                     <input type="text" class="form-control" name="public_key" placeholder="Public Key">
                                 </div>
                                 <div class="mb-3">
+                                    <input type="text" class="form-control" name="reference" placeholder="Reference">
+                                </div>
+                                <div class="mb-3">
                                     <input type="text" class="form-control" name="success_url" placeholder="Success URL"
                                         value="https://connect.trolimpay.com/success">
                                 </div>

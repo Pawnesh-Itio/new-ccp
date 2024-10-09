@@ -32,7 +32,8 @@ class DirectApiController extends Controller
             'city'             => 'required',
             'state'            => 'required',
             'country'          => 'required',
-            'zip'              => 'required'
+            'zip'              => 'required',
+            'reference'        => 'required'
         );
         $validator = \Validator::make($post->all(), $rules);
         if ($validator->fails()) {
@@ -245,8 +246,8 @@ class DirectApiController extends Controller
                     'zipcode' => $post['zip'],
                     'show_payment_mode'=>'NB,CC,DC,MW,UPI,OM,EMI,PL,CBT,BT',
                     'udf1'=>$postPublicKey,
-                    'udf2'=>$userData->user_id
-                    
+                    'udf2'=>$userData->user_id,
+                    'udf4'=>$post['reference']
                 ];
                 // End Post Data
                 // Generate Report
@@ -263,7 +264,7 @@ class DirectApiController extends Controller
                 $reportArr['product'] ="EaseBuzz";                                                                           
                 $reportArr['aepstype'] ='card';
                 $reportArr['status'] ='pending';
-                $reportArr['refno'] = $txnID;
+                $reportArr['refno'] = $post['reference'];
                 $reportArr['number'] = $txnID;
                 $reportArr['billing_response'] = json_encode($postData);
 
@@ -271,7 +272,7 @@ class DirectApiController extends Controller
                 $reportId = $insertedReport->id;
                 // End Generate Report
                 // Hash
-                $hashFields = $apiFields['merchant_key'] . '|' . $txnID . '|' . $post['amount'] . '|' . $post['product_info'] . '|' . $post['firstname'] . '|' . $post['email'] . '|'. $postPublicKey .'|'. $userData->user_id .'|' . $reportId . '||||||||' . $apiFields['salt'];
+                $hashFields = $apiFields['merchant_key'] . '|' . $txnID . '|' . $post['amount'] . '|' . $post['product_info'] . '|' . $post['firstname'] . '|' . $post['email'] . '|'. $postPublicKey .'|'. $userData->user_id .'|' . $reportId . '|' . $post['reference'] . '|||||||' . $apiFields['salt'];
                 $hash = hash('sha512', $hashFields);
                 $postData['hash']=$hash;
                 $postData['udf3']=$reportId;

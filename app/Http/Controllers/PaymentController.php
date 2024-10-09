@@ -36,11 +36,12 @@ class PaymentController extends Controller
         'city'             => 'required',
         'state'            => 'required',
         'country'          => 'required',
-        'zip'              => 'required'
+        'zip'              => 'required',
+        'reference'        => 'required'
     );
     $validator = \Validator::make($post->all(), $rules);
     if ($validator->fails()) {
-        return response()->json(['Errors'=>"Required Peremeters are missing"], 422);
+        return response()->json(['Errors'=>"Required Peremeters are missing or incorrect"], 422);
     }
     $public_key = $post['public_key'];
     $product_info = $post['product_info'];
@@ -73,6 +74,7 @@ class PaymentController extends Controller
         $acquirerName = $acquirer->acquirer_name;
         $acquirerEndpoint = $acquirer->api_endpoint;
         $acquirerSlug = $acquirer->acquirer_slug;
+        
         if($acquirerSlug == 'easy_buzz'){
         $merchant_key = $fieldsArray['merchant_key'];
         $salt = $fieldsArray['salt'];
@@ -100,7 +102,8 @@ class PaymentController extends Controller
             'zipcode' => $zip,
             'show_payment_mode'=>'NB,CC,DC,MW,UPI,OM,EMI,PL,CBT,BT',
             'udf1'=>$public_key,
-            'udf2'=>$merchant_id
+            'udf2'=>$merchant_id,
+            'udf4'=>$post['reference']
         ];
         // Generate Report
         $reportArr['acquirer_id'] = $acquirer_id;
@@ -116,14 +119,14 @@ class PaymentController extends Controller
         $reportArr['product'] ="EaseBuzz";                                                                           
         $reportArr['aepstype'] ='card';
         $reportArr['status'] ='pending';
-        $reportArr['refno'] = $txnID;
+        $reportArr['refno'] = $post['reference'];
         $reportArr['number'] = $txnID;
         $reportArr['billing_response'] = json_encode($postData);
         $insertedReport = Report::create($reportArr);
         $reportId = $insertedReport->id;
         // End Generate Report
         // Hash
-        $hashFields = $merchant_key . '|' . $txnID . '|' . $amount . '|' . $product_info . '|' . $firstname . '|' . $email . '|'. $public_key .'|'. $merchant_id .'|' . $reportId . '||||||||' . $salt;
+        $hashFields = $merchant_key . '|' . $txnID . '|' . $amount . '|' . $product_info . '|' . $firstname . '|' . $email . '|'. $public_key .'|'. $merchant_id .'|' . $reportId . '|' . $post['reference'] . '|||||||' . $salt;
         $hash = hash('sha512', $hashFields);
         $postData['hash']=$hash;
         $postData['udf3']=$reportId;
@@ -142,7 +145,7 @@ class PaymentController extends Controller
             header("Location: $url");
             exit();
             }else{
-                return response()->json(['Errors'=>"Somthing went wrong, please try again later!"], 422);
+                return response()->json(['Errors'=>$response], 422);
             }
         }
     }else{
